@@ -17,7 +17,7 @@ IMAGE=atomie/python-ssh-node:py3.10-node21
 CONTAINER_NAME=my_container
 # port on host machine for SSH forwarding
 SSH_PORT=22
-# extra flags for docker run (data volume mounts, ports, GPU support, etc.)
+# extra flags for docker run (volume mounts, ports, GPU, time zone, etc.)
 EXTRA_FLAGS=""
 
 # check prerequisites
@@ -48,8 +48,7 @@ docker run -d -it \
     $IMAGE \
     bash -c "usermod -u $(id -u) user && groupmod -g $(id -g) user && echo '$(cat $SALTED_PASSWD_FILE)' | chpasswd --encrypted && /usr/sbin/sshd -D"
 
-# copy handy config scripts to container
+# copy assets files to container home directory
 HOME_DIR=$(docker exec -u user $CONTAINER_NAME bash -c 'echo $HOME')
-docker cp assets/.bash_aliases $CONTAINER_NAME:$HOME_DIR/
 docker cp assets/.inputrc $CONTAINER_NAME:$HOME_DIR/
 
