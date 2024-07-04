@@ -1,4 +1,4 @@
-# docker build --build-arg USER_ID=$(id -u) --build-arg GROUP_ID=$(id -g) -t atomie/python-ssh:3.10 .
+# docker build -t atomie/python-ssh:3.10 -f 3.10.dockerfile ..
 
 FROM python:3.10
 
@@ -10,11 +10,11 @@ RUN apt-get update && \
     # echo >> /etc/ssh/sshd_config && \
     # echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config
 
-ARG USER_ID
-ARG GROUP_ID
-
 # create a new non-root user group and user
-RUN groupadd -g $GROUP_ID user && \
-    useradd -u $USER_ID -g $GROUP_ID -ms /bin/bash user
+RUN groupadd -g 1000 user && \
+    useradd -u 1000 -g 1000 -ms /bin/bash user
+
+# copy assets to the user's home directory
+COPY assets/ /home/user
 
 CMD ["/usr/sbin/sshd", "-D"]
