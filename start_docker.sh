@@ -48,7 +48,3 @@ docker run -d -it \
     $IMAGE \
     bash -c "usermod -u $(id -u) user && groupmod -g $(id -g) user && echo '$(cat $SALTED_PASSWD_FILE)' | chpasswd --encrypted && /usr/sbin/sshd -D"
 
-# copy assets files to container home directory
-HOME_DIR=$(docker exec -u user $CONTAINER_NAME bash -c 'echo $HOME')
-docker cp assets/.inputrc $CONTAINER_NAME:$HOME_DIR/
-
