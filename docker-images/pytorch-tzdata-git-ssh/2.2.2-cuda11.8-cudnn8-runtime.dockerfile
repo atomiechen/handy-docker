@@ -1,4 +1,4 @@
-# docker build -t atomie/pytorch-tzdata-git-ssh:2.2.2-cuda11.8-cudnn8-runtime -f 2.2.2-cuda11.8-cudnn8-runtime-hdbscan-git.dockerfile ..
+# docker build -t atomie/pytorch-tzdata-git-ssh:2.2.2-cuda11.8-cudnn8-runtime -f 2.2.2-cuda11.8-cudnn8-runtime.dockerfile ..
 
 FROM pytorch/pytorch:2.2.2-cuda11.8-cudnn8-runtime
 
