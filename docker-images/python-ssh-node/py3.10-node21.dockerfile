@@ -1,4 +1,4 @@
-# docker build -t atomie/python-ssh-node:py3.10-node21 .
+# docker build -t atomie/python-ssh-node:py3.10-node21 -f py3.10-node21.dockerfile .
 
 FROM atomie/python-ssh:3.10
 
