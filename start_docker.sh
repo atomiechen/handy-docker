@@ -10,7 +10,7 @@
 # salted password file
 SALTED_PASSWD_FILE=pass
 # SSH key directory to be mounted to container, empty if not needed
-SSH_KEY_DIR=ssh-keys
+SSH_KEY_DIR=$(pwd)/ssh-keys
 # image to run
 IMAGE=atomie/python-ssh-node:py3.10-node21
 # container name
@@ -18,7 +18,7 @@ CONTAINER_NAME=my_container
 # port on host machine for SSH forwarding
 SSH_PORT=22
 # extra flags for docker run (volume mounts, ports, GPU, time zone, etc.)
-EXTRA_FLAGS=""
+EXTRA_FLAGS="-e TZ=Asia/Shanghai"
 
 # check prerequisites
 if [ ! -f $SALTED_PASSWD_FILE ]; then
