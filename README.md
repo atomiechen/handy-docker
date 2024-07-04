@@ -12,7 +12,7 @@ Images integrated with SSH for remote development.
 
 ## Build
 
-Images are built with UID=1000 and GID=1000 to creat the non-root user.
+Images are built with UID=1000 and GID=1000 to create the non-root user.
 
 ## Run
 
