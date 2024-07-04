@@ -1,4 +1,4 @@
-# docker build -t atomie/pytorch-tzdata-ssh:2.2.2-cuda11.8-cudnn8-runtime .
+# docker build -t atomie/pytorch-tzdata-ssh:2.2.2-cuda11.8-cudnn8-runtime -f 2.2.2-cuda11.8-cudnn8-runtime.dockerfile ..
 
 FROM pytorch/pytorch:2.2.2-cuda11.8-cudnn8-runtime
 
@@ -11,12 +11,12 @@ RUN apt-get update && \
     # echo >> /etc/ssh/sshd_config && \
     # echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config
 
-ARG USER_ID
-ARG GROUP_ID
-
 # create a new non-root user group and user
 RUN groupadd -g 1000 user && \
     useradd -u 1000 -g 1000 -ms /bin/bash user && \
     echo 'PATH="/opt/conda/bin:$PATH"' >> /etc/profile.d/set_conda_path.sh
+
+# copy assets to the user's home directory
+COPY assets/ /home/user
 
 CMD ["/usr/sbin/sshd", "-D"]
