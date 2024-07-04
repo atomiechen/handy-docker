@@ -12,11 +12,7 @@ Images integrated with SSH for remote development.
 
 ## Build
 
-To build them, we need UID and GID to create non-root users. For example:
-```sh
-docker build --build-arg USER_ID=$(id -u) --build-arg GROUP_ID=$(id -g) -t atomie/python-ssh:3.10 .
-```
-Images in Docker Hub are built with UID=1000 and GID=1000.
+Images are built with UID=1000 and GID=1000 to creat the non-root user.
 
 ## Run
 
