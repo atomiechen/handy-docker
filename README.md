@@ -5,12 +5,12 @@
 Images integrated with OpenSSH server / client for remote development. 
 
 - `python-ssh` ([Docker Hub](https://hub.docker.com/repository/docker/atomie/python-ssh)): Python image integrated with SSH. 
-  - [`3.10`](docker-images/python-ssh/3.10/Dockerfile)
-  - [`3.10-node21`](docker-images/python-ssh/3.10-node21/Dockerfile)
-  - [`3.10-node21-ffmpeg`](docker-images/python-ssh/3.10-node21-ffmpeg/Dockerfile)
+  - [`3.10`](https://github.com/atomiechen/handy-docker/blob/main/docker-images/python-ssh/3.10/Dockerfile)
+  - [`3.10-node21`](https://github.com/atomiechen/handy-docker/blob/main/docker-images/python-ssh/3.10-node21/Dockerfile)
+  - [`3.10-node21-ffmpeg`](https://github.com/atomiechen/handy-docker/blob/main/docker-images/python-ssh/3.10-node21-ffmpeg/Dockerfile)
 - `pytorch-tzdata-git-ssh` ([Docker Hub](https://hub.docker.com/repository/docker/atomie/pytorch-tzdata-git-ssh)): PyTorch integrated with SSH, tzdata and git.
-  - [`2.2.2-cuda11.8-cudnn8-runtime`](docker-images/pytorch-tzdata-git-ssh/2.2.2-cuda11.8-cudnn8-runtime/Dockerfile)
-  - [`2.2.2-cuda11.8-cudnn8-runtime-hdbscan`](docker-images/pytorch-tzdata-git-ssh/2.2.2-cuda11.8-cudnn8-runtime-hdbscan/Dockerfile)
+  - [`2.2.2-cuda11.8-cudnn8-runtime`](https://github.com/atomiechen/handy-docker/blob/main/docker-images/pytorch-tzdata-git-ssh/2.2.2-cuda11.8-cudnn8-runtime/Dockerfile)
+  - [`2.2.2-cuda11.8-cudnn8-runtime-hdbscan`](https://github.com/atomiechen/handy-docker/blob/main/docker-images/pytorch-tzdata-git-ssh/2.2.2-cuda11.8-cudnn8-runtime-hdbscan/Dockerfile)
 
 
 <details>
