@@ -1,4 +1,4 @@
-# docker build -t atomie/python-ssh-node:py3.10-node21 -f py3.10-node21.dockerfile .
+# docker build -t atomie/python-ssh:3.10-node21 .
 
 FROM atomie/python-ssh:3.10
 
@@ -12,4 +12,6 @@ RUN curl -fsSL https://deb.nodesource.com/setup_21.x | bash - && \
     # smoke tests
     node --version && \
     npm --version && \
-    yarn --version
+    corepack --version && \
+    yarn --version && \
+    pnpm --version

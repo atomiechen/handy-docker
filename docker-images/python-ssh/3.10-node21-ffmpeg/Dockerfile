@@ -1,6 +1,6 @@
-# docker build -t atomie/python-ssh-node:py3.10-node21-ffmpeg -f py3.10-node21-ffmpeg.dockerfile .
+# docker build -t atomie/python-ssh:3.10-node21-ffmpeg .
 
-FROM atomie/python-ssh-node:py3.10-node21
+FROM atomie/python-ssh:3.10-node21
 
 # install ffmpeg
 RUN apt-get update && \

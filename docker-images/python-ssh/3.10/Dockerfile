@@ -1,4 +1,4 @@
-# docker build -t atomie/python-ssh:3.10 -f 3.10.dockerfile ..
+# docker build -t atomie/python-ssh:3.10 -f Dockerfile ../..
 
 FROM python:3.10
 
