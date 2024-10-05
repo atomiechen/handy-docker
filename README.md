@@ -45,4 +45,5 @@ echo $USER:$SALTED > pass
 ## Handy scripts
 
 - `start_docker.sh`: script for (re)starting a container with SSH-integration. 
+- `start_super_docker.sh`: script for further sharing the host's docker socket and binary with the container.
 
