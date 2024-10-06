@@ -30,10 +30,12 @@ Images are built with UID=1000 and GID=1000 to create the non-root user.
 ## Run
 
 However, you can (and you should) change UID and GID to match the host machine's UID and GID using `usermod` and `groupmod`. Also you need to set a password. For example:
+
 ```sh
 docker run -d -it --user root $IMAGE \
     bash -c "usermod -u $(id -u) user && groupmod -g $(id -g) user && echo '$(cat pass)' | chpasswd --encrypted && /usr/sbin/sshd -D"
 ```
+
 Here the file `pass` stores the encrypted password, which is generated with salt (`USER` is the username in the container):
 ```sh
 USER=user
@@ -42,8 +44,13 @@ SALTED=$(printf $CLEAR_PASSWORD | openssl passwd -6 -salt KdN5Re3X2X18 -stdin)
 echo $USER:$SALTED > pass
 ```
 
+> [!NOTE]
+> You can use `gen_salted_pass.sh` to generate the salted password file interactively.
+
 ## Handy scripts
+
+Scripts in `scripts` directory:
 
 - `start_docker.sh`: script for (re)starting a container with SSH-integration. 
 - `start_super_docker.sh`: script for further sharing the host's docker socket and binary with the container.
-
+- `gen_salted_pass.sh`: interactive script for generating the salted password to a file.
