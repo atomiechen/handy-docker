@@ -1,4 +1,7 @@
+# local build:
 # docker build -t atomie/python-ssh:3.10-node21 .
+# multi-arch build and push:
+# docker buildx build --platform linux/amd64,linux/arm64 -t atomie/python-ssh:3.10-node21 -f Dockerfile --push .
 
 FROM atomie/python-ssh:3.10
 
