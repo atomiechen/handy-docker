@@ -12,15 +12,15 @@ SALTED_PASSWD_FILE=pass
 # SSH key directory to be mounted to container, empty if not needed
 SSH_KEY_DIR=$(pwd)/ssh-keys
 # image to run
-IMAGE=atomie/python-ssh-node:py3.10-node21
+IMAGE=atomie/python-ssh:3.10
 # container name
 CONTAINER_NAME=my_container
 # port on host machine for SSH forwarding
 SSH_PORT=22
-# extra flags for docker run (volume mounts, ports, GPU, time zone, etc.)
-EXTRA_FLAGS="-e TZ=Asia/Shanghai"
 # host docker group name, for sharing docker socket and permissions
 DOCKER_GROUP_NAME=docker
+# extra flags for docker run (volume mounts, ports, GPU, time zone, etc.)
+EXTRA_FLAGS="-e TZ=Asia/Shanghai"
 
 
 # check prerequisites
@@ -51,6 +51,7 @@ docker run -d -it \
     --restart always \
     -v /var/run/docker.sock:/var/run/docker.sock \
     -v /usr/bin/docker:/usr/bin/docker \
+    -v /usr/libexec/docker/cli-plugins:/usr/libexec/docker/cli-plugins \
     -p $SSH_PORT:22 \
     $SSH_VOLUME_MOUNTS \
     $EXTRA_FLAGS \
