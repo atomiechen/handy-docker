@@ -6,16 +6,13 @@ echo "Generating salted password to file."
 
 DEFAULT_FILE_PATH="./salted_passwd"
 
-read -p "Enter the file path to save the result ($(realpath $DEFAULT_FILE_PATH)): " FILE_PATH
+read -p "Enter the file path to save the result ($DEFAULT_FILE_PATH): " FILE_PATH
 
 # remove leading and trailing whitespaces
 FILE_PATH=$(echo $FILE_PATH | xargs)
 
 # if FILE_PATH is empty, use the default value
 FILE_PATH=${FILE_PATH:-$DEFAULT_FILE_PATH}
-
-# get the absolute path
-FILE_PATH=$(realpath "$FILE_PATH")
 
 # check if the path is not a directory
 if [ -d "$FILE_PATH" ]; then
