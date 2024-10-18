@@ -8,13 +8,13 @@
 
 ## Configuration
 # salted password file
-SALTED_PASSWD_FILE=pass
+SALTED_PASSWD_FILE=salted_passwd
 # SSH key directory to be mounted to container, empty if not needed
-SSH_KEY_DIR=$(pwd)/ssh-keys
+SSH_KEY_DIR=ssh-keys
 # image to run
-IMAGE=atomie/python-ssh-node:py3.10-node21
+IMAGE=atomie/python-ssh:3.10
 # container name
-CONTAINER_NAME=my_container
+CONTAINER_NAME=my_ssh_container
 # port on host machine for SSH forwarding
 SSH_PORT=22
 # extra flags for docker run (volume mounts, ports, GPU, time zone, etc.)
@@ -26,7 +26,7 @@ if [ ! -f $SALTED_PASSWD_FILE ]; then
     exit 1
 fi
 if [ ! -d $SSH_KEY_DIR ]; then
-    echo "SSH key directory not found: $SSH_KEY_DIR"
+    echo "Skipped mount: SSH key directory not found: $SSH_KEY_DIR"
     SSH_VOLUME_MOUNTS=""
 else
     SSH_VOLUME_MOUNTS="-v $SSH_KEY_DIR:/home/user/.ssh"
@@ -40,11 +40,11 @@ docker rm $CONTAINER_NAME
 # change the uid and gid of user in docker, and then start SSH service
 docker run -d -it \
     --name $CONTAINER_NAME \
-    --user root \
     --restart always \
     -p $SSH_PORT:22 \
+    -e USER_ID=$(id -u) \
+    -e GROUP_ID=$(id -g) \
+    -e SALTED_PASSWD=$(cat $SALTED_PASSWD_FILE) \
     $SSH_VOLUME_MOUNTS \
     $EXTRA_FLAGS \
-    $IMAGE \
-    bash -c "usermod -u $(id -u) user && groupmod -g $(id -g) user && echo '$(cat $SALTED_PASSWD_FILE)' | chpasswd --encrypted && /usr/sbin/sshd -D"
-
+    $IMAGE
