@@ -1,4 +1,4 @@
-# docker build -t atomie/pytorch-tzdata-git-ssh:2.2.2-cuda11.8-cudnn8-runtime -f Dockerfile ../..
+# docker build --platform linux/amd64 --push -t atomie/pytorch-tzdata-git-ssh:2.2.2-cuda11.8-cudnn8-runtime .
 
 FROM pytorch/pytorch:2.2.2-cuda11.8-cudnn8-runtime
 
@@ -12,12 +12,21 @@ RUN apt-get update && \
     # echo >> /etc/ssh/sshd_config && \
     # echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config
 
+# set default environment variables
+ENV GROUP_ID=1000
+ENV USER_ID=1000
+
 # create a new non-root user group and user
-RUN groupadd -g 1000 user && \
-    useradd -u 1000 -g 1000 -ms /bin/bash user && \
+RUN groupadd -g ${GROUP_ID} user && \
+    useradd -u ${USER_ID} -g ${GROUP_ID} -ms /bin/bash user && \
     echo 'PATH="/opt/conda/bin:$PATH"' >> /etc/profile.d/set_conda_path.sh
+
+# copy entrypoint script
+COPY entrypoint.sh /entrypoint.sh
 
 # copy assets to the user's home directory
 COPY assets/ /home/user
+
+ENTRYPOINT ["bash", "/entrypoint.sh"]
 
 CMD ["/usr/sbin/sshd", "-D"]
