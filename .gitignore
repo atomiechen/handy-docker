@@ -1,6 +1,7 @@
 .DS_Store
 
 pass*
+salted_pass*
 
 tmp*
 *.tmp
