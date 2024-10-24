@@ -8,9 +8,9 @@
 
 ## Configuration
 # salted password file
-SALTED_PASSWD_FILE=salted_passwd
+SALTED_PASSWD_FILE=./salted_passwd
 # SSH key directory to be mounted to container, empty if not needed
-SSH_KEY_DIR=ssh-keys
+SSH_KEY_DIR=./ssh-keys
 # image to run
 IMAGE=atomie/python-ssh:3.10
 # container name
@@ -29,7 +29,7 @@ if [ ! -d $SSH_KEY_DIR ]; then
     echo "Skipped mount: SSH key directory not found: $SSH_KEY_DIR"
     SSH_VOLUME_MOUNTS=""
 else
-    SSH_VOLUME_MOUNTS="-v ./$SSH_KEY_DIR:/home/user/.ssh"
+    SSH_VOLUME_MOUNTS="-v $SSH_KEY_DIR:/home/user/.ssh"
 fi
 
 
