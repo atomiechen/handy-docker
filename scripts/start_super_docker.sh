@@ -3,14 +3,17 @@
 # (Re)start a docker container with SSH service running
 # prerequisites:
 # - A salted password file
-# - (optional) A directory with SSH keys to be mounted as ~/.ssh (public and private keys, authorized_keys, etc.) 
+# - (optional) A directory with SSH keys to be mounted at ~/.ssh (public and private keys, authorized_keys, etc.) 
 #   for preserving identity and login access
+# - (optional) A directory of vscode server to be mounted at ~/.vscode-server
 
 ## Configuration
 # salted password file
 SALTED_PASSWD_FILE=./salted_passwd
 # SSH key directory to be mounted to container, empty if not needed
 SSH_KEY_DIR=./ssh-keys
+# VSCode server directory
+VSCODE_SERVER_DIR=./vscode-server
 # image to run
 IMAGE=atomie/python-ssh:3.10
 # container name
@@ -34,6 +37,12 @@ if [ ! -d $SSH_KEY_DIR ]; then
 else
     SSH_VOLUME_MOUNTS="-v $SSH_KEY_DIR:/home/user/.ssh"
 fi
+if [ ! -d $VSCODE_SERVER_DIR ]; then
+    echo "Skipped mount: VSCode server directory not found: $VSCODE_SERVER_DIR"
+    VSCODE_SERVER_VOLUME_MOUNTS=""
+else
+    VSCODE_SERVER_VOLUME_MOUNTS="-v $VSCODE_SERVER_DIR:/home/user/.vscode-server"
+fi
 
 
 # stop and remove container
@@ -56,6 +65,7 @@ docker run -d -it \
     -e GROUP_ID=$(id -g) \
     -e SALTED_PASSWD=$(cat $SALTED_PASSWD_FILE) \
     $SSH_VOLUME_MOUNTS \
+    $VSCODE_SERVER_VOLUME_MOUNTS \
     $EXTRA_FLAGS \
     $IMAGE \
     bash -c "groupadd -g $DOCKER_GROUP_ID $DOCKER_GROUP_NAME && usermod -aG $DOCKER_GROUP_NAME user && /usr/sbin/sshd -D"
