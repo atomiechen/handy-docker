@@ -1,0 +1,27 @@
+name: Image pytorch-tzdata-git-ssh
+
+on:
+  push:
+    branches: ['main']
+    paths:
+      - 'docker-images/pytorch-tzdata-git-ssh'
+  workflow_dispatch:
+
+jobs:
+
+  build_base:
+    uses: ./.github/workflows/docker-build-publish.yml
+    secrets: inherit
+    with:
+      image: pytorch-tzdata-git-ssh
+      tag: 2.2.2-cuda11.8-cudnn8-runtime
+      platforms: linux/amd64
+
+  build_hdbscan:
+    uses: ./.github/workflows/docker-build-publish.yml
+    needs: build_base
+    secrets: inherit
+    with:
+      image: pytorch-tzdata-git-ssh
+      tag: 2.2.2-cuda11.8-cudnn8-runtime-hdbscan
+      platforms: linux/amd64
