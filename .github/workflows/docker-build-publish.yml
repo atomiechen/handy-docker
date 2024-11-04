@@ -19,7 +19,13 @@ on:
 
 jobs:
   build:
+    name: Publish Docker image to Docker Hub and GitHub Container Registry
     runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+      attestations: write
+      id-token: write
     env:
       DOCKERHUB_IMAGE: atomie/${{ inputs.image }}
       GHCR_IMAGE: ghcr.io/atomiechen/${{ inputs.image }}
