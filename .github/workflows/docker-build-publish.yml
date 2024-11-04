@@ -75,7 +75,8 @@ jobs:
       - name: Generate artifact attestation for Docker Hub
         uses: actions/attest-build-provenance@v1
         with:
-          subject-name: ${{ env.DOCKERHUB_IMAGE }}
+          # docker hub registry, ref: https://github.com/actions/attest-build-provenance/issues/68
+          subject-name: index.docker.io/${{ env.DOCKERHUB_IMAGE }}
           subject-digest: ${{ steps.push.outputs.digest }}
           push-to-registry: true
 
