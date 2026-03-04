@@ -28,17 +28,23 @@ if [ ! -f $SALTED_PASSWD_FILE ]; then
     echo "Salted password file not found: $SALTED_PASSWD_FILE"
     exit 1
 fi
-if [ ! -d $SSH_KEY_DIR ]; then
-    echo "Skipped mount: SSH key directory not found: $SSH_KEY_DIR"
-    SSH_VOLUME_MOUNTS=""
-else
-    SSH_VOLUME_MOUNTS="-v $SSH_KEY_DIR:/home/user/.ssh"
+SSH_VOLUME_MOUNTS=""
+if [ -n "$SSH_KEY_DIR" ]; then
+    if [ ! -d "$SSH_KEY_DIR" ]; then
+        echo "SSH key directory not found: $SSH_KEY_DIR"
+        echo "You can create it with: mkdir -p $SSH_KEY_DIR"
+    else
+        SSH_VOLUME_MOUNTS="--mount type=bind,src=$SSH_KEY_DIR,dst=/home/user/.ssh"
+    fi
 fi
-if [ ! -d $VSCODE_SERVER_DIR ]; then
-    echo "Skipped mount: VSCode server directory not found: $VSCODE_SERVER_DIR"
-    VSCODE_SERVER_VOLUME_MOUNTS=""
-else
-    VSCODE_SERVER_VOLUME_MOUNTS="-v $VSCODE_SERVER_DIR:/home/user/.vscode-server"
+VSCODE_SERVER_VOLUME_MOUNTS=""
+if [ -n "$VSCODE_SERVER_DIR" ]; then
+    if [ ! -d "$VSCODE_SERVER_DIR" ]; then
+        echo "VSCode server directory not found: $VSCODE_SERVER_DIR"
+        echo "You can create it with: mkdir -p $VSCODE_SERVER_DIR"
+    else
+        VSCODE_SERVER_VOLUME_MOUNTS="--mount type=bind,src=$VSCODE_SERVER_DIR,dst=/home/user/.vscode-server"
+    fi
 fi
 
 
