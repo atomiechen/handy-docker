@@ -59,7 +59,7 @@ The encrypted password is generated with salt:
 
 ```sh
 CLEAR_PASSWD="clear_text_password"
-SALTED_PASSWD=$(printf $CLEAR_PASSWD | openssl passwd -6 -salt KdN5Re3X2X18 -stdin)
+SALTED_PASSWD=$(printf '%s' "$CLEAR_PASSWD" | openssl passwd -6 -salt $SALT -stdin)
 echo $SALTED_PASSWD > salted_passwd
 ```
 
