@@ -4,9 +4,10 @@
 # docker buildx build --platform linux/amd64,linux/arm64 --push -t atomie/ssh-python-node:3.10-node24 .
 
 ARG PYTHON_VERSION=3.10
-ARG NODE_VERSION=24
 
 FROM atomie/ssh-python:${PYTHON_VERSION}
+
+ARG NODE_VERSION=24
 
 # install Node.js using NodeSource
 RUN curl -fsSL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash - && \
