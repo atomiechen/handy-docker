@@ -1,0 +1,32 @@
+name: Build Images
+
+on:
+  push:
+    branches: ['main']
+    paths:
+      - 'docker-images/ssh-python/**'
+      - 'docker-images/ssh-python-node/**'
+      - 'docker-images/ssh-python-node-ffmpeg/**'
+      - 'docker-bake.hcl'
+  workflow_dispatch:
+
+jobs:
+  ssh-python:
+    uses: ./.github/workflows/docker-bake.yml
+    secrets: inherit
+    with:
+      target: ssh-python
+
+  ssh-python-node:
+    needs: ssh-python
+    uses: ./.github/workflows/docker-bake.yml
+    secrets: inherit
+    with:
+      target: ssh-python-node
+
+  ssh-python-node-ffmpeg:
+    needs: ssh-python-node
+    uses: ./.github/workflows/docker-bake.yml
+    secrets: inherit
+    with:
+      target: ssh-python-node-ffmpeg

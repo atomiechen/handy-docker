@@ -32,6 +32,7 @@ target "base" {
 }
 
 target "ssh-python" {
+  name = "ssh-python${replace(python, ".", "_")}"
   inherits = ["base"]
 
   context = "docker-images/ssh-python"
@@ -55,6 +56,7 @@ target "ssh-python" {
 }
 
 target "ssh-python-node" {
+  name = "ssh-python${replace(python, ".", "_")}-node${node}"
   inherits = ["base"]
 
   context = "docker-images/ssh-python-node"
@@ -80,6 +82,7 @@ target "ssh-python-node" {
 }
 
 target "ssh-python-node-ffmpeg" {
+  name = "ssh-python${replace(python, ".", "_")}-node${node}-ffmpeg"
   inherits = ["base"]
 
   context = "docker-images/ssh-python-node-ffmpeg"
