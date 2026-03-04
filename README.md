@@ -4,11 +4,12 @@
 
 Following images are integrated with OpenSSH server / client for remote development. They are built with UID=1000 and GID=1000 to create the non-root user.
 
-- `python-ssh` ([Docker Hub](https://hub.docker.com/repository/docker/atomie/python-ssh)): Python image integrated with SSH. 
-  - [`3.10`](https://github.com/atomiechen/handy-docker/blob/main/docker-images/python-ssh/3.10/Dockerfile)
-  - [`3.10-node21`](https://github.com/atomiechen/handy-docker/blob/main/docker-images/python-ssh/3.10-node21/Dockerfile)
-  - [`3.10-node21-ffmpeg`](https://github.com/atomiechen/handy-docker/blob/main/docker-images/python-ssh/3.10-node21-ffmpeg/Dockerfile)
-  - [`3.10-node21-ffmpeg-uv0.4.18`](https://github.com/atomiechen/handy-docker/blob/main/docker-images/python-ssh/3.10-node21-ffmpeg-uv0.4.18/Dockerfile)
+- `ssh-python` ([Docker Hub](https://hub.docker.com/repository/docker/atomie/ssh-python), [Dockerfile](https://github.com/atomiechen/handy-docker/blob/main/docker-images/ssh-python/Dockerfile)): Python image integrated with SSH.
+  - `3.10`, `3.11`, `3.12`
+- `ssh-python-node` ([Docker Hub](https://hub.docker.com/repository/docker/atomie/ssh-python-node), [Dockerfile](https://github.com/atomiechen/handy-docker/blob/main/docker-images/ssh-python-node/Dockerfile)): Python + Node integrated with SSH.
+  - `3.10-node24`, `3.11-node24`, `3.12-node24`
+- `ssh-python-node-ffmpeg` ([Docker Hub](https://hub.docker.com/repository/docker/atomie/ssh-python-node-ffmpeg), [Dockerfile](https://github.com/atomiechen/handy-docker/blob/main/docker-images/ssh-python-node-ffmpeg/Dockerfile)): Python + Node + FFmpeg integrated with SSH.
+  - `3.10-node24`, `3.11-node24`, `3.12-node24`
 - `pytorch-tzdata-git-ssh` ([Docker Hub](https://hub.docker.com/repository/docker/atomie/pytorch-tzdata-git-ssh)): PyTorch integrated with SSH, tzdata and git.
   - [`2.2.2-cuda11.8-cudnn8-runtime`](https://github.com/atomiechen/handy-docker/blob/main/docker-images/pytorch-tzdata-git-ssh/2.2.2-cuda11.8-cudnn8-runtime/Dockerfile)
   - [`2.2.2-cuda11.8-cudnn8-runtime-hdbscan`](https://github.com/atomiechen/handy-docker/blob/main/docker-images/pytorch-tzdata-git-ssh/2.2.2-cuda11.8-cudnn8-runtime-hdbscan/Dockerfile)
@@ -18,6 +19,11 @@ Following images are integrated with OpenSSH server / client for remote developm
 
 <summary>(Deprecated Images)</summary>
 
+- `python-ssh` ([Docker Hub](https://hub.docker.com/repository/docker/atomie/python-ssh)): Python image integrated with SSH. 
+  - [`3.10`](https://github.com/atomiechen/handy-docker/blob/main/docker-images/python-ssh/3.10/Dockerfile)
+  - [`3.10-node21`](https://github.com/atomiechen/handy-docker/blob/main/docker-images/python-ssh/3.10-node21/Dockerfile)
+  - [`3.10-node21-ffmpeg`](https://github.com/atomiechen/handy-docker/blob/main/docker-images/python-ssh/3.10-node21-ffmpeg/Dockerfile)
+  - [`3.10-node21-ffmpeg-uv0.4.18`](https://github.com/atomiechen/handy-docker/blob/main/docker-images/python-ssh/3.10-node21-ffmpeg-uv0.4.18/Dockerfile)
 - `python-ssh-node` ([Docker Hub](https://hub.docker.com/repository/docker/atomie/python-ssh-node)): Python + Node integrated with SSH.
 - `pytorch-tzdata-ssh` ([Docker Hub](https://hub.docker.com/repository/docker/atomie/pytorch-tzdata-ssh)): PyTorch integrated with SSH and tzdata.
 
@@ -29,7 +35,7 @@ Following images are integrated with OpenSSH server / client for remote developm
 You can run the container with the following command, where `SALTED_PASSWD` is the salted password for the SSH user:
 
 ```sh
-docker run --name my_ssh_container -e SALTED_PASSWD=my_salted_password -d atomie/python-ssh:3.10
+docker run --name my_ssh_container -e SALTED_PASSWD=my_salted_password -d atomie/ssh-python:3.10
 ```
 
 But usually you want to mount the host's directory and need to make the user ID and group ID consistent between the host and the container to avoid permission issues. You can run the container with environment variables `USER_ID` and `GROUP_ID`:
@@ -41,7 +47,7 @@ docker run -d \
   -e USER_ID=$(id -u) \
   -e GROUP_ID=$(id -g) \
   -v /path/to/host/dir:/path/to/container/dir \
-  atomie/python-ssh:3.10
+  atomie/ssh-python:3.10
 ```
 
 ## Generate Salted Password
@@ -72,7 +78,7 @@ docker run -d \
   --name my_ssh_container \
   --secret salted_passwd \
   -e SALTED_PASSWD_FILE=/run/secrets/salted_passwd \
-  atomie/python-ssh:3.10
+  atomie/ssh-python:3.10
 ```
 
 
