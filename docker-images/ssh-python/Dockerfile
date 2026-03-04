@@ -9,7 +9,7 @@ FROM python:${PYTHON_VERSION}
 
 # install uv
 # ref: https://docs.astral.sh/uv/guides/integration/docker/#installing-uv
-COPY --from=ghcr.io/astral-sh/uv:0.10.18 /uv /uvx /bin/
+COPY --from=ghcr.io/astral-sh/uv:0.10.8 /uv /uvx /bin/
 
 # install ssh with OpenSSH server and client
 RUN apt-get update && \
