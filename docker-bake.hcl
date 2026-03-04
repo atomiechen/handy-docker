@@ -1,0 +1,105 @@
+variable "dockerhub" {
+  default = "atomie"
+}
+
+variable "ghcr" {
+  default = "ghcr.io/atomiechen"
+}
+
+variable "python_versions" {
+  default = ["3.10", "3.11", "3.12"]
+}
+
+variable "node_versions" {
+  default = ["24"]
+}
+
+group "default" {
+  targets = [
+    "ssh-python",
+    "ssh-python-node",
+    "ssh-python-node-ffmpeg",
+  ]
+}
+
+target "base" {
+  platforms = ["linux/amd64", "linux/arm64"]
+  pull = true
+  attest = [
+    { type = "provenance", mode = "max" },
+    { type = "sbom" },
+  ]
+}
+
+target "ssh-python" {
+  inherits = ["base"]
+
+  context = "docker-images/ssh-python"
+  dockerfile = "Dockerfile"
+
+  matrix = {
+    python = python_versions
+  }
+
+  args = {
+    PYTHON_VERSION = "${python}"
+  }
+
+  tags = [
+    "${dockerhub}/ssh-python:${python}",
+    "${ghcr}/ssh-python:${python}",
+  ]
+
+  cache-from = [{ type = "gha", scope = "ssh-python-${python}" }]
+  cache-to   = [{ type = "gha", scope = "ssh-python-${python}", mode = "max" }]
+}
+
+target "ssh-python-node" {
+  inherits = ["base"]
+
+  context = "docker-images/ssh-python-node"
+  dockerfile = "Dockerfile"
+
+  matrix = {
+    python = python_versions
+    node   = node_versions
+  }
+
+  args = {
+    PYTHON_VERSION = "${python}"
+    NODE_VERSION   = "${node}"
+  }
+
+  tags = [
+    "${dockerhub}/ssh-python-node:${python}-node${node}",
+    "${ghcr}/ssh-python-node:${python}-node${node}",
+  ]
+
+  cache-from = [{ type = "gha", scope = "ssh-python-node-${python}-node${node}" }]
+  cache-to   = [{ type = "gha", scope = "ssh-python-node-${python}-node${node}", mode = "max" }]
+}
+
+target "ssh-python-node-ffmpeg" {
+  inherits = ["base"]
+
+  context = "docker-images/ssh-python-node-ffmpeg"
+  dockerfile = "Dockerfile"
+
+  matrix = {
+    python = python_versions
+    node   = node_versions
+  }
+
+  args = {
+    PYTHON_VERSION = "${python}"
+    NODE_VERSION   = "${node}"
+  }
+
+  tags = [
+    "${dockerhub}/ssh-python-node-ffmpeg:${python}-node${node}",
+    "${ghcr}/ssh-python-node-ffmpeg:${python}-node${node}",
+  ]
+
+  cache-from = [{ type = "gha", scope = "ssh-python-node-ffmpeg-${python}-node${node}" }]
+  cache-to   = [{ type = "gha", scope = "ssh-python-node-ffmpeg-${python}-node${node}", mode = "max" }]
+}
