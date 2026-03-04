@@ -45,7 +45,7 @@ else
     echo "Generated random salt: $SALT"
 fi
 
-SALTED_PASSWD=$(printf $CLEAR_PASSWD | openssl passwd -6 -salt $SALT -stdin)
+SALTED_PASSWD=$(printf '%s' "$CLEAR_PASSWD" | openssl passwd -6 -salt $SALT -stdin)
 
 echo "$SALTED_PASSWD" > "$FILE_PATH"
 
