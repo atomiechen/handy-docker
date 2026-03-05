@@ -27,8 +27,11 @@ ENV COREPACK_HOME=/opt/corepack
 ARG PNPM_VERSION=10.30.3
 ARG YARN_VERSION=1.22.22
 
-RUN mkdir -p ${COREPACK_HOME} && \
-    chmod 777 ${COREPACK_HOME} && \
+# write to /etc/environment to make sure the variable is available for SSH sessions, 
+# which will wipe the environment variables set by Dockerfile ENV instruction
+RUN mkdir -p "${COREPACK_HOME}" && \
+    chmod 777 "${COREPACK_HOME}" && \
+    printf "COREPACK_HOME=%s\n" "${COREPACK_HOME}" >> /etc/environment && \
     corepack enable && \
     corepack prepare pnpm@${PNPM_VERSION} --activate && \
     corepack prepare yarn@${YARN_VERSION} --activate && \
