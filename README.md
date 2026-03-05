@@ -4,13 +4,13 @@
 
 Following images are integrated with OpenSSH server / client for remote development. They are built with UID=1000 and GID=1000 to create the non-root user.
 
-- `ssh-python` ([Docker Hub](https://hub.docker.com/repository/docker/atomie/ssh-python), [Dockerfile](https://github.com/atomiechen/handy-docker/blob/main/docker-images/ssh-python/Dockerfile)): Python image integrated with SSH.
+- `ssh-python` ([Docker Hub](https://hub.docker.com/repository/docker/atomie/ssh-python), [GHCR](https://github.com/atomiechen/handy-docker/pkgs/container/ssh-python), [Dockerfile](https://github.com/atomiechen/handy-docker/blob/main/docker-images/ssh-python/Dockerfile)): Python image integrated with SSH.
   - `3.10`, `3.11`, `3.12`
-- `ssh-python-node` ([Docker Hub](https://hub.docker.com/repository/docker/atomie/ssh-python-node), [Dockerfile](https://github.com/atomiechen/handy-docker/blob/main/docker-images/ssh-python-node/Dockerfile)): Python + Node integrated with SSH.
+- `ssh-python-node` ([Docker Hub](https://hub.docker.com/repository/docker/atomie/ssh-python-node), [GHCR](https://github.com/atomiechen/handy-docker/pkgs/container/ssh-python-node), [Dockerfile](https://github.com/atomiechen/handy-docker/blob/main/docker-images/ssh-python-node/Dockerfile)): Python + Node integrated with SSH.
   - `3.10-node24`, `3.11-node24`, `3.12-node24`
-- `ssh-python-node-ffmpeg` ([Docker Hub](https://hub.docker.com/repository/docker/atomie/ssh-python-node-ffmpeg), [Dockerfile](https://github.com/atomiechen/handy-docker/blob/main/docker-images/ssh-python-node-ffmpeg/Dockerfile)): Python + Node + FFmpeg integrated with SSH.
+- `ssh-python-node-ffmpeg` ([Docker Hub](https://hub.docker.com/repository/docker/atomie/ssh-python-node-ffmpeg), [GHCR](https://github.com/atomiechen/handy-docker/pkgs/container/ssh-python-node-ffmpeg), [Dockerfile](https://github.com/atomiechen/handy-docker/blob/main/docker-images/ssh-python-node-ffmpeg/Dockerfile)): Python + Node + FFmpeg integrated with SSH.
   - `3.10-node24`, `3.11-node24`, `3.12-node24`
-- `pytorch-tzdata-git-ssh` ([Docker Hub](https://hub.docker.com/repository/docker/atomie/pytorch-tzdata-git-ssh)): PyTorch integrated with SSH, tzdata and git.
+- `pytorch-tzdata-git-ssh` ([Docker Hub](https://hub.docker.com/repository/docker/atomie/pytorch-tzdata-git-ssh), [GHCR](https://github.com/atomiechen/handy-docker/pkgs/container/pytorch-tzdata-git-ssh)): PyTorch integrated with SSH, tzdata and git.
   - [`2.2.2-cuda11.8-cudnn8-runtime`](https://github.com/atomiechen/handy-docker/blob/main/docker-images/pytorch-tzdata-git-ssh/2.2.2-cuda11.8-cudnn8-runtime/Dockerfile)
   - [`2.2.2-cuda11.8-cudnn8-runtime-hdbscan`](https://github.com/atomiechen/handy-docker/blob/main/docker-images/pytorch-tzdata-git-ssh/2.2.2-cuda11.8-cudnn8-runtime-hdbscan/Dockerfile)
 
@@ -19,7 +19,7 @@ Following images are integrated with OpenSSH server / client for remote developm
 
 <summary>(Deprecated Images)</summary>
 
-- `python-ssh` ([Docker Hub](https://hub.docker.com/repository/docker/atomie/python-ssh)): Python image integrated with SSH. 
+- `python-ssh` ([Docker Hub](https://hub.docker.com/repository/docker/atomie/python-ssh), [GHCR](https://github.com/atomiechen/handy-docker/pkgs/container/python-ssh)): Python image integrated with SSH. 
   - [`3.10`](https://github.com/atomiechen/handy-docker/blob/main/docker-images/python-ssh/3.10/Dockerfile)
   - [`3.10-node21`](https://github.com/atomiechen/handy-docker/blob/main/docker-images/python-ssh/3.10-node21/Dockerfile)
   - [`3.10-node21-ffmpeg`](https://github.com/atomiechen/handy-docker/blob/main/docker-images/python-ssh/3.10-node21-ffmpeg/Dockerfile)
