@@ -37,6 +37,12 @@ target "base" {
     { type = "provenance", mode = "max" },
     { type = "sbom" },
   ]
+  labels = {
+    "org.opencontainers.image.source"   = "https://github.com/atomiechen/handy-docker"
+    "org.opencontainers.image.url"      = "https://github.com/atomiechen/handy-docker"
+    "org.opencontainers.image.licenses" = "MIT"
+    "org.opencontainers.image.authors"  = "Atomie CHEN"
+  }
 }
 
 target "ssh-python" {
@@ -52,6 +58,12 @@ target "ssh-python" {
 
   args = {
     PYTHON_VERSION = "${python}"
+  }
+
+  labels = {
+    "org.opencontainers.image.title"       = "ssh-python"
+    "org.opencontainers.image.description" = "Python ${python} image integrated with SSH"
+    "org.opencontainers.image.version"     = "${python}"
   }
 
   tags = [
@@ -82,6 +94,12 @@ target "ssh-python-node" {
     YARN_VERSION   = "${yarn_version}"
   }
 
+  labels = {
+    "org.opencontainers.image.title"       = "ssh-python-node"
+    "org.opencontainers.image.description" = "Python ${python} + Node ${node} image integrated with SSH"
+    "org.opencontainers.image.version"     = "${python}-node${node}"
+  }
+
   tags = [
     "${dockerhub}/ssh-python-node:${python}-node${node}",
     "${ghcr}/ssh-python-node:${python}-node${node}",
@@ -106,6 +124,12 @@ target "ssh-python-node-ffmpeg" {
   args = {
     PYTHON_VERSION = "${python}"
     NODE_VERSION   = "${node}"
+  }
+
+  labels = {
+    "org.opencontainers.image.title"       = "ssh-python-node-ffmpeg"
+    "org.opencontainers.image.description" = "Python ${python} + Node ${node} + FFmpeg image integrated with SSH"
+    "org.opencontainers.image.version"     = "${python}-node${node}"
   }
 
   tags = [
