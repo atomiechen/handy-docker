@@ -43,6 +43,12 @@ target "base" {
     "org.opencontainers.image.licenses" = "MIT"
     "org.opencontainers.image.authors"  = "Atomie CHEN"
   }
+  annotations = [
+    "index:org.opencontainers.image.source=https://github.com/atomiechen/handy-docker",
+    "index:org.opencontainers.image.url=https://github.com/atomiechen/handy-docker",
+    "index:org.opencontainers.image.licenses=MIT",
+    "index:org.opencontainers.image.authors=Atomie CHEN",
+  ]
 }
 
 target "ssh-python" {
@@ -65,6 +71,12 @@ target "ssh-python" {
     "org.opencontainers.image.description" = "Python ${python} image integrated with SSH"
     "org.opencontainers.image.version"     = "${python}"
   }
+
+  annotations = [
+    "index:org.opencontainers.image.title=ssh-python",
+    "index:org.opencontainers.image.description=Python ${python} image integrated with SSH",
+    "index:org.opencontainers.image.version=${python}",
+  ]
 
   tags = [
     "${dockerhub}/ssh-python:${python}",
@@ -100,6 +112,12 @@ target "ssh-python-node" {
     "org.opencontainers.image.version"     = "${python}-node${node}"
   }
 
+  annotations = [
+    "index:org.opencontainers.image.title=ssh-python-node",
+    "index:org.opencontainers.image.description=Python ${python} + Node ${node} image integrated with SSH",
+    "index:org.opencontainers.image.version=${python}-node${node}",
+  ]
+
   tags = [
     "${dockerhub}/ssh-python-node:${python}-node${node}",
     "${ghcr}/ssh-python-node:${python}-node${node}",
@@ -131,6 +149,12 @@ target "ssh-python-node-ffmpeg" {
     "org.opencontainers.image.description" = "Python ${python} + Node ${node} + FFmpeg image integrated with SSH"
     "org.opencontainers.image.version"     = "${python}-node${node}"
   }
+
+  annotations = [
+    "index:org.opencontainers.image.title=ssh-python-node-ffmpeg",
+    "index:org.opencontainers.image.description=Python ${python} + Node ${node} + FFmpeg image integrated with SSH",
+    "index:org.opencontainers.image.version=${python}-node${node}",
+  ]
 
   tags = [
     "${dockerhub}/ssh-python-node-ffmpeg:${python}-node${node}",
