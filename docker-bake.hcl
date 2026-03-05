@@ -14,6 +14,14 @@ variable "node_versions" {
   default = ["24"]
 }
 
+variable "pnpm_version" {
+  default = "10.30.3"
+}
+
+variable "yarn_version" {
+  default = "1.22.22"
+}
+
 group "default" {
   targets = [
     "ssh-python",
@@ -70,6 +78,8 @@ target "ssh-python-node" {
   args = {
     PYTHON_VERSION = "${python}"
     NODE_VERSION   = "${node}"
+    PNPM_VERSION   = "${pnpm_version}"
+    YARN_VERSION   = "${yarn_version}"
   }
 
   tags = [
