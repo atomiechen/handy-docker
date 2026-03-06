@@ -12,10 +12,14 @@ FROM python:${PYTHON_VERSION}
 COPY --from=ghcr.io/astral-sh/uv:0.10.8 /uv /uvx /bin/
 
 # install ssh with OpenSSH server and client
+# remove LANG and LC_* from AcceptEnv in sshd_config to prevent locale issues in SSH sessions
+# persist LANG in /etc/environment as SSH sessions don't inherit Docker ENV
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends ssh && \
     rm -rf /var/lib/apt/lists/* && \
-    mkdir -p /run/sshd
+    mkdir -p /run/sshd && \
+    sed -i -E '/^AcceptEnv/s/\s*(LANG|LC_\S*)//g; /^AcceptEnv\s*$/d; /^AcceptEnv/s/\s+/ /g' /etc/ssh/sshd_config && \
+    printf "LANG=%s\n" "$LANG" >> /etc/environment
     # echo >> /etc/ssh/sshd_config && \
     # echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config
 
