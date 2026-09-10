@@ -7,11 +7,30 @@ on:
       - 'docker-images/ssh-python/**'
       - 'docker-images/ssh-python-node/**'
       - 'docker-images/ssh-python-node-ffmpeg/**'
+      - 'tests/**'
       - 'docker-bake.hcl'
+      - '.github/workflows/ci-build-images.yml'
   workflow_dispatch:
 
 jobs:
+  ssh-auth:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Build SSH authentication test image
+        run: >-
+          docker build
+          --build-arg PYTHON_VERSION=3.11
+          --tag handy-docker/ssh-python-auth-test
+          docker-images/ssh-python
+
+      - name: Test SSH password authentication policy
+        run: tests/test_ssh_password_auth.sh handy-docker/ssh-python-auth-test
+
   ssh-python:
+    needs: ssh-auth
     uses: ./.github/workflows/docker-bake.yml
     secrets: inherit
     with:

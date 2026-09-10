@@ -32,10 +32,13 @@ Following images are integrated with OpenSSH server / client for remote developm
 
 ## How to Use These Images
 
-You can run the container with the following command, where `SALTED_PASSWD` is the salted password for the SSH user:
+Password authentication is disabled by default. Mount an `authorized_keys` file to use public-key authentication:
 
 ```sh
-docker run --name my_ssh_container -e SALTED_PASSWD=my_salted_password -d atomie/ssh-python:3.10
+docker run -d \
+  --name my_ssh_container \
+  -v ./ssh-keys:/home/user/.ssh \
+  atomie/ssh-python:3.10
 ```
 
 But usually you want to mount the host's directory and need to make the user ID and group ID consistent between the host and the container to avoid permission issues. You can run the container with environment variables `USER_ID` and `GROUP_ID`:
@@ -43,43 +46,49 @@ But usually you want to mount the host's directory and need to make the user ID 
 ```sh
 docker run -d \
   --name my_ssh_container \
-  -e SALTED_PASSWD=my_salted_password \
   -e USER_ID=$(id -u) \
   -e GROUP_ID=$(id -g) \
+  -v ./ssh-keys:/home/user/.ssh \
   -v /path/to/host/dir:/path/to/container/dir \
   atomie/ssh-python:3.10
 ```
+
+When a non-empty salted password is supplied through `SALTED_PASSWD_FILE` or the legacy `SALTED_PASSWD` environment variable, the image sets the `user` password and enables password authentication. Without one, it explicitly starts OpenSSH with `PasswordAuthentication=no`.
 
 ## Generate Salted Password
 
 > [!NOTE]
 > You can use `gen_salted_passwd.sh` to generate the salted password file interactively.
 
-The encrypted password is generated with salt:
+Generate a salted password hash without storing the clear-text password in shell history:
 
 ```sh
-CLEAR_PASSWD="clear_text_password"
-SALTED_PASSWD=$(printf '%s' "$CLEAR_PASSWD" | openssl passwd -6 -salt $SALT -stdin)
-echo $SALTED_PASSWD > salted_passwd
+read -rsp "Password: " CLEAR_PASSWD
+printf '\n'
+printf '%s' "$CLEAR_PASSWD" | openssl passwd -6 -stdin > salted_passwd
+unset CLEAR_PASSWD
+chmod 600 salted_passwd
 ```
 
 ## Docker Secrets
 
-As an alternative to passing the salted password as an environment variable, you can use Docker secrets to store the salted password in a file and mount it to the container. 
+Prefer a Compose secret over `SALTED_PASSWD`, because environment variables are visible through `docker inspect`:
 
-```sh
-docker secret create salted_passwd salted_passwd
+```yaml
+services:
+  ssh:
+    image: atomie/ssh-python:3.10
+    environment:
+      SALTED_PASSWD_FILE: /run/secrets/salted_passwd
+    secrets:
+      - salted_passwd
+
+secrets:
+  salted_passwd:
+    file: ./salted_passwd
 ```
 
-Then you can run the container by specifying the secret file path to the environment variable `SALTED_PASSWD_FILE`:
-
-```sh
-docker run -d \
-  --name my_ssh_container \
-  --secret salted_passwd \
-  -e SALTED_PASSWD_FILE=/run/secrets/salted_passwd \
-  atomie/ssh-python:3.10
-```
+`SALTED_PASSWD` remains supported for compatibility, but should not be used for new deployments.
 
 
 ## Handy scripts

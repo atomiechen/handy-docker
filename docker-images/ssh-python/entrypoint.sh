@@ -22,15 +22,39 @@ for f in /home/user/.ssh/*.pub; do
     [ -f "$f" ] && chmod 644 "$f"
 done
 
-# read the salted password from file if exists
-if [ -f "$SALTED_PASSWD_FILE" ]; then
-  SALTED_PASSWD=$(cat "$SALTED_PASSWD_FILE")
+# Prefer a password hash mounted as a secret. Keep SALTED_PASSWD for backwards
+# compatibility, but do not require either password source.
+salted_passwd=${SALTED_PASSWD:-}
+if [ -n "${SALTED_PASSWD_FILE:-}" ]; then
+  if [ ! -r "$SALTED_PASSWD_FILE" ]; then
+    echo "SALTED_PASSWD_FILE is not readable: $SALTED_PASSWD_FILE" >&2
+    exit 1
+  fi
+  if ! salted_passwd=$(cat "$SALTED_PASSWD_FILE"); then
+    echo "Failed to read SALTED_PASSWD_FILE: $SALTED_PASSWD_FILE" >&2
+    exit 1
+  fi
 fi
 
-# if SALTED_PASSWD is set, change the password
-if [ -n "$SALTED_PASSWD" ]; then
-  echo "user:$SALTED_PASSWD" | chpasswd --encrypted
+# Enable password authentication only when a non-empty password hash is set.
+password_authentication=no
+if [ -n "$salted_passwd" ]; then
+  if ! echo "user:$salted_passwd" | chpasswd --encrypted; then
+    echo "Failed to set the user password from the supplied hash" >&2
+    exit 1
+  fi
+  password_authentication=yes
 fi
 
-# execute the main command
+# Apply the authentication policy to the image's default SSH server command.
+# Other commands keep their original arguments, which is useful for docker run
+# diagnostics and explicit deployment-level overrides.
+if [ "${1:-}" = "/usr/sbin/sshd" ]; then
+  sshd_options=(-o "PasswordAuthentication=$password_authentication")
+  if ! /usr/sbin/sshd -t "${sshd_options[@]}"; then
+    exit 1
+  fi
+  exec "$@" "${sshd_options[@]}"
+fi
+
 exec "$@"
